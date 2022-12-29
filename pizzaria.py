@@ -1,13 +1,16 @@
 from modulos import *
 
 menu()
-
 while True:
-    opcao = int(input('\033[34m>>OPÇÃO (0 à 5):\033[m '))
-    while opcao > 5:
-        print('\033[31mERRO! Digite uma opção válida.\033[m')
+    try:
         opcao = int(input('\033[34m>>OPÇÃO (0 à 5):\033[m '))
-    break
+        while opcao > 5:
+            print('\033[31mERRO! Digite uma opção válida.\033[m')
+            opcao = int(input('\033[34m>>OPÇÃO (0 à 5):\033[m '))
+    except ValueError:
+        print('\033[31mERRO! Digite uma opção válida.\033[m')
+    else:
+        break
 
 menu_tam()
 ingredientes(opcao)

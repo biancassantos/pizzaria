@@ -40,13 +40,19 @@ def menu_tam():
     for c in range(0, 4):
         print(f'{c:<2}- {tamanhos[c]:<20} R${precos[c]:.2f}')
     print('-' * 40)
-    opcao = int(input('\033[34m>>OPÇÃO (0 à 3):\033[m '))
-    while opcao > (len(tamanhos) - 1):
-        print('\033[31mERRO! Digite uma opção válida.\033[m')
-        opcao = int(input('\033[34m>>OPÇÃO (0 à 3):\033[m '))
 
-    infos['tamanho'] = tamanhos[opcao]
-    total_valores['preço'] = precos[opcao]
+    while True:
+        try:
+            opcao = int(input('\033[34m>>OPÇÃO (0 à 3):\033[m '))
+            while opcao > (len(tamanhos) - 1):
+                print('\033[31mERRO! Digite uma opção válida.\033[m')
+                opcao = int(input('\033[34m>>OPÇÃO (0 à 3):\033[m '))
+        except ValueError:
+            print('\033[31mERRO! Digite uma opção válida.\033[m')
+        else:
+            infos['tamanho'] = tamanhos[opcao]
+            total_valores['preço'] = precos[opcao]
+            break
 
 
 def ingredientes(n):
@@ -88,20 +94,24 @@ def ingredientes(n):
 
     if resposta == 'S':
         while True:
-            total_item = len(mostrar) - 1
-            ingrediente = int(input('\033[36m>>Digite o número do ingrediente'
-                                    ' \nque desja retirar (1 de cada vez):\033[m '))
-            while ingrediente > total_item:
+            try:
+                total_item = len(mostrar) - 1
+                ingrediente = int(input('\033[36m>>Digite o número do ingrediente'
+                                        ' \nque desja retirar (1 de cada vez):\033[m '))
+                while ingrediente > total_item:
+                    print('\033[31mERRO! Digite uma opção válida.\033[m')
+                    ingrediente = int(input('\033[36m>>Digite o número do ingrediente '
+                                            '\nque desja retirar (1 de cada vez):\033[m '))
+            except ValueError:
                 print('\033[31mERRO! Digite uma opção válida.\033[m')
-                ingrediente = int(input('\033[36m>>Digite o número do ingrediente '
-                                        '\nque desja retirar (1 de cada vez):\033[m '))
-            del mostrar[ingrediente]
-            print('-' * 40)
-            lista_ingredientes(mostrar)
+            else:
+                del mostrar[ingrediente]
+                print('-' * 40)
+                lista_ingredientes(mostrar)
 
-            resposta = deseja_cont('\033[34m>>Deseja retirar mais algum? [S/N]\033[m ')
-            if resposta == 'N':
-                break
+                resposta = deseja_cont('\033[34m>>Deseja retirar mais algum? [S/N]\033[m ')
+                if resposta == 'N':
+                    break
 
     montagem(mostrar)
 
